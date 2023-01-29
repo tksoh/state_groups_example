@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:state_groups/state_groups.dart';
 
 // StateGroup<void> exampleStateGroup = StateGroup<void>();
@@ -47,10 +48,12 @@ class _MyHomePageState extends SyncState2<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateFormat('d/M/y hh:mm:ss a').format(DateTime.now());
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      drawer: const NavigationDrawerWidget(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -62,6 +65,9 @@ class _MyHomePageState extends SyncState2<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Text(
+              'Updated: $now',
+            ),
           ],
         ),
       ),
@@ -70,6 +76,49 @@ class _MyHomePageState extends SyncState2<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class NavigationDrawerWidget extends StatelessWidget {
+  const NavigationDrawerWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Material(
+        color: Colors.blue,
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 48,
+            ),
+            buildMenuItem(
+                text: 'Update All',
+                icon: Icons.people,
+                onClicked: () {
+                  Navigator.pop(context);
+                  updateAll<_MyHomePageState>();
+                }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildMenuItem({
+    required String text,
+    required IconData icon,
+    VoidCallback? onClicked,
+  }) {
+    const color = Colors.white;
+    const hoverColor = Colors.white70;
+
+    return ListTile(
+      leading: Icon(icon, color: color),
+      title: Text(text, style: const TextStyle(color: color)),
+      hoverColor: hoverColor,
+      onTap: onClicked,
     );
   }
 }
