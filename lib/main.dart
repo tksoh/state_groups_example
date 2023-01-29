@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:state_groups/state_groups.dart';
 
-StateGroup<void> exampleStateGroup = StateGroup<void>();
+// StateGroup<void> exampleStateGroup = StateGroup<void>();
 
 void main() {
   runApp(const MyApp());
@@ -31,17 +31,18 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends SyncState<void, MyHomePage> {
+class _MyHomePageState extends SyncState2<MyHomePage> {
   int _counter = 0;
 
-  _MyHomePageState() : super(exampleStateGroup);
+  _MyHomePageState() : super();
 
   // Normally we would use a setState() call here but because we're using state
   // groups we don't have to
   void _incrementCounter() {
     _counter++;
 
-    exampleStateGroup.notifyAll();
+    // exampleStateGroup.notifyAll();
+    updateAll<_MyHomePageState>();
   }
 
   @override
