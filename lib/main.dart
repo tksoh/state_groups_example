@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:state_groups/state_groups.dart';
 
 StateGroup<void> exampleStateGroup = StateGroup<void>();
+StateGroup<void> exampleStateGroup2 = StateGroup<void>();
 
 void main() {
   runApp(const MyApp());
@@ -43,10 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
     _counter++;
     stateCount++;
 
-    exampleStateGroup.notifyAll();
-
     if (_counter % 5 == 0) {
-      setState(() {});
+      exampleStateGroup.notifyAll();
+    } else {
+      exampleStateGroup2.notifyAll();
     }
   }
 
@@ -63,16 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
             SyncStateBuilder(
               stateGroup: exampleStateGroup,
               builder: (context) {
+                return Text('State count: $_counter');
+              },
+            ),
+            SyncStateBuilder(
+              stateGroup: exampleStateGroup2,
+              builder: (context) {
                 return Text('State count: $stateCount');
               },
-            )
+            ),
           ],
         ),
       ),
