@@ -31,17 +31,23 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends SyncState<void, MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int stateCount = 0;
 
-  _MyHomePageState() : super(exampleStateGroup);
+  _MyHomePageState() : super();
 
   // Normally we would use a setState() call here but because we're using state
   // groups we don't have to
   void _incrementCounter() {
     _counter++;
+    stateCount++;
 
     exampleStateGroup.notifyAll();
+
+    if (_counter % 5 == 0) {
+      setState(() {});
+    }
   }
 
   @override
@@ -61,6 +67,12 @@ class _MyHomePageState extends SyncState<void, MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            SyncStateBuilder(
+              stateGroup: exampleStateGroup,
+              builder: (context) {
+                return Text('State count: $stateCount');
+              },
+            )
           ],
         ),
       ),
