@@ -98,7 +98,11 @@ class NavigationDrawerWidget extends StatelessWidget {
                 icon: Icons.people,
                 onClicked: () {
                   Navigator.pop(context);
-                  updateAll<_MyHomePageState>();
+                  forEachState<_MyHomePageState>(
+                    (p0) {
+                      p0._incrementCounter();
+                    },
+                  );
                 }),
           ],
         ),
